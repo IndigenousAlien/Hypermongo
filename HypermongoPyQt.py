@@ -7,7 +7,7 @@ import os
 
 #Purpose: Uses pyplot and PyQt5 GUI to improve SM plots.
 #Author: Jacky Tran @Allegheny College
-#Version: 1.1
+#Version: 1.2
 #Date: 9/7/2021
 
 #-----------------------------------------------------------------------------------------------#
@@ -23,9 +23,14 @@ import os
 #              - Subscripts for labels of plots with numbers in them                            #
 #              - Directory search bar                                                           #
 #              - Add option to squish all axis together instead separating them                 #
+#              - Added resizing of window and widgets                                           #
 # Future ideas:                                                                                 #
-#              - Resize window and scale all widgets with window                                #
+#              - None for now                                                                   #
 #-----------------------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------------------#
+# Below here contains the functions which read output files and creates plots with MatPlot #
+#------------------------------------------------------------------------------------------#
 
 def checkNum(name1): #Checks if the string contains a number
     """This function takes a string and checks to see if it contains a number,
@@ -151,9 +156,9 @@ def grph(ylabel, yplot, file, numCol, checkedBox):
     plt.show()
     return
 
-#------------------------------------------------------------------------#
-# Everything below here is strictly for creating the GUI of Hypermongo   #
-#------------------------------------------------------------------------#
+#----------------------------------------------------#
+# Everything below here is for the GUI of Hypermongo #
+#----------------------------------------------------#
 
 class Ui_MainWindow(object): #Creates a class object for the main window of Hypermongo
     def openWindow(self):  #Opens second window for energy/mass&more plots
@@ -179,61 +184,76 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">" + str(os.getcwd()) + "</span></p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">" + str(os.getcwd()) + "</span></p></body></html>"))
         else:
             pass
         return
 
     def setupUi(self, MainWindow): #Creates widgets and buttons on the main window
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(432, 271)
+        MainWindow.resize(739, 382)
         font = QtGui.QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+
+        #set up radio btn 1 - Energy plots
         self.radioButton = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButton.setGeometry(QtCore.QRect(250, 100, 141, 31))
         font = QtGui.QFont()
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.radioButton.setFont(font)
         self.radioButton.setObjectName("radioButton")
+        self.gridLayout.addWidget(self.radioButton, 2, 1, 1, 2)
 
+        #Set up radio btn 2 - Mass&More plots
         self.radioButton_2 = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButton_2.setGeometry(QtCore.QRect(250, 140, 181, 20))
         font = QtGui.QFont()
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.radioButton_2.setFont(font)
         self.radioButton_2.setObjectName("radioButton_2")
+        self.gridLayout.addWidget(self.radioButton_2, 3, 1, 1, 3)
 
+        #Set up txtbrwsr 1 - Info on program
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(10, 10, 201, 201))
         self.textBrowser.setObjectName("textBrowser")
+        self.gridLayout.addWidget(self.textBrowser, 0, 0, 5, 1)
+
+        #Set up txtbrwsr 2 - Current directory info
         self.textBrowser_2 = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser_2.setGeometry(QtCore.QRect(230, 40, 191, 51))
         self.textBrowser_2.setObjectName("textBrowser_2")
+        self.gridLayout.addWidget(self.textBrowser_2, 1, 1, 1, 3)
+
+        #Set up pshbtn 1 - Next button
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(230, 180, 93, 28))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.openWindow)
+        self.gridLayout.addWidget(self.pushButton, 4, 1, 1, 1)
 
+        #Set up pshbtn 2 - Exit button
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(330, 180, 93, 28))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.exit)
+        self.gridLayout.addWidget(self.pushButton_2, 4, 2, 1, 2)
 
+        #set up tlbtn - Access directory folders
         self.toolButton = QtWidgets.QToolButton(self.centralwidget)
-        self.toolButton.setGeometry(QtCore.QRect(390, 10, 27, 22))
         self.toolButton.setObjectName("toolButton")
         self.toolButton.clicked.connect(self.changeDir)
+        self.gridLayout.addWidget(self.toolButton, 0, 3, 1, 1)
 
+        #Set up lbl - "Current Directory" label
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(230, 10, 141, 21))
         self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
+
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 610, 29))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 739, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -244,7 +264,6 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
         self.actionExit = QtWidgets.QAction(MainWindow)
         self.actionExit.setObjectName("actionExit")
         self.actionExit.triggered.connect(self.exit)
-
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
 
@@ -263,23 +282,23 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt; font-weight:600;\">Welcome to Hypermongo! </span></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">_______________________</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">This python program is a designed to create plots for two output files </span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">- energy#.sph &amp; massAndMore.out</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start by selecting a file you wish to plot, then press the &quot;Next&quot; button.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Make sure you are in the correct directory where your file(s) are located.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">You can change your directory by pressing the &quot;...&quot; button.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Have fun!</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Author: Jacky Tran @Allegheny College 2021</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Email: jpamtran@gmail.com</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Welcome to Hypermongo! </span></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">_______________________</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">This python program is a designed to create plots for two output files </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">- energy#.sph &amp; massAndMore.out</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Start by selecting a file you wish to plot, then press the &quot;Next&quot; button.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Make sure you are in the correct directory where your file(s) are located.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">You can change your directory by pressing the &quot;...&quot; button.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Have fun!</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Author: Jacky Tran @Allegheny College 2021</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Email: jpamtran@gmail.com</span></p></body></html>"))
         self.pushButton.setText(_translate("MainWindow", "Next"))
         self.pushButton_2.setText(_translate("MainWindow", "Exit"))
         self.toolButton.setText(_translate("MainWindow", "..."))
@@ -287,7 +306,7 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">" + str(os.getcwd()) + "</span></p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">" + str(os.getcwd()) + "</span></p></body></html>"))
         self.label.setText(_translate("MainWindow", "Current Directory:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
@@ -309,43 +328,67 @@ class Ui_Dialog_energy(object): #Creates Dialog window for energy.sph plots
 
     def setupUi(self, Dialog): #Sets up objects in Dialog window
         Dialog.setObjectName("Dialog")
-        Dialog.resize(382, 269)
+        Dialog.resize(508, 400)
+        self.gridLayout = QtWidgets.QGridLayout(Dialog)
+        self.gridLayout.setObjectName("gridLayout")
+
+        #Set up txtbrwsr - Info on how to use window
         self.textBrowser = QtWidgets.QTextBrowser(Dialog)
-        self.textBrowser.setGeometry(QtCore.QRect(30, 21, 201, 231))
+        self.gridLayout.addWidget(self.textBrowser, 0, 0, 8, 1)
         self.textBrowser.setObjectName("textBrowser")
+
+        #Set up lbl 1 - "File Number"
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(260, 20, 101, 16))
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
+
+        #Set up lbl 2 - "Stepsize"
         self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(260, 90, 71, 21))
+        self.gridLayout.addWidget(self.label_2, 2, 1, 1, 1)
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
+
+        #Set up spnbox 1 - user input for file number of energy#.sph
         self.spinBox = QtWidgets.QSpinBox(Dialog)
-        self.spinBox.setGeometry(QtCore.QRect(260, 50, 63, 22))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.spinBox.setFont(font)
+        self.gridLayout.addWidget(self.spinBox, 1, 1, 1, 1)
         self.spinBox.setObjectName("spinBox")
         self.spinBox.setRange(0,999)
+
+        #Set up spnbox 2 - user input for stepsize of energy#.sph
         self.spinBox_2 = QtWidgets.QSpinBox(Dialog)
-        self.spinBox_2.setGeometry(QtCore.QRect(260, 130, 81, 22))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.spinBox_2.setFont(font)
+        self.gridLayout.addWidget(self.spinBox_2, 3, 1, 1, 1)
         self.spinBox_2.setObjectName("spinBox_2")
         self.spinBox_2.setRange(1,99999)
+
+        #Set up pshbtn - Create plot button; links to callHmx()
         self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(260, 220, 93, 28))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pushButton.setFont(font)
+        self.gridLayout.addWidget(self.pushButton, 7, 1, 1, 1)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.callHmx)
 
+        #Set up chkbox - Enables sharing axis of Energy plots
         self.checkBox = QtWidgets.QCheckBox(Dialog)
-        self.checkBox.setGeometry(QtCore.QRect(260, 180, 101, 20))
+        self.gridLayout.addWidget(self.checkBox, 5, 1, 1, 1)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(10)
@@ -374,7 +417,7 @@ class Ui_Dialog_energy(object): #Creates Dialog window for energy.sph plots
         self.textBrowser.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HMX - Energy Plot</span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">_____________________</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
@@ -428,29 +471,44 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
 
     def setupUi(self, Dialog): #Sets up Dialog window for mass&more plots.
         Dialog.setObjectName("Dialog")
-        Dialog.resize(361, 267)
+        Dialog.resize(508, 400)
+        self.gridLayout = QtWidgets.QGridLayout(Dialog)
+        self.gridLayout.setObjectName("gridLayout")
+
+        #Set up pshbtn - "Create Plot"; links to callHmxl()
         self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(250, 230, 93, 28))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pushButton.setFont(font)
+        self.gridLayout.addWidget(self.pushButton, 2, 2, 1, 1)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.callHmxl) #connects button press to 'callHmxl' function
 
+        #Set up spnbx - stepsize input for mass&more.out
         self.spinBox = QtWidgets.QSpinBox(Dialog)
-        self.spinBox.setGeometry(QtCore.QRect(30, 200, 60, 22))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.spinBox.setFont(font)
+        self.gridLayout.addWidget(self.spinBox, 1, 0, 1, 1)
         self.spinBox.setObjectName("spinBox")
         self.spinBox.setRange(1,99999)
 
+        #Set up lbl - "Stepsize"
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(100, 200, 71, 21))
+        self.gridLayout.addWidget(self.label, 1, 1, 1, 1)
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
 
+        #Set up list - list of columns in mass&more.out
         self.listWidget = QtWidgets.QListWidget(Dialog)
-        self.listWidget.setGeometry(QtCore.QRect(200, 10, 141, 201))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.listWidget.setFont(font)
         self.listWidget.setObjectName("listWidget")
         item = QtWidgets.QListWidgetItem()
         self.listWidget.addItem(item)
@@ -484,21 +542,24 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
         self.listWidget.addItem(item)
         item = QtWidgets.QListWidgetItem()
         self.listWidget.addItem(item)
+        self.gridLayout.addWidget(self.listWidget, 0, 2, 2, 1)
         self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
+        #Set up txtbrwsr - Info for how to use window
         self.textBrowser = QtWidgets.QTextBrowser(Dialog)
-        self.textBrowser.setGeometry(QtCore.QRect(20, 10, 161, 181))
+        self.gridLayout.addWidget(self.textBrowser, 0, 0, 1, 2)
         self.textBrowser.setObjectName("textBrowser")
-
+    
+        #Set up chkbox - Enables sharing axis for plots.
         self.checkBox = QtWidgets.QCheckBox(Dialog)
-        self.checkBox.setGeometry(QtCore.QRect(70, 230, 121, 31))
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.checkBox.setFont(font)
         self.checkBox.setObjectName("checkBox")
+        self.gridLayout.addWidget(self.checkBox, 2, 0, 1, 1)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -557,25 +618,25 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HM - Mass&amp;More Plot</span></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">________________</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">You may select up to a maximum of <span style=\" font-weight:600;\">four</span> (current) data columns on the right. </p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Select multiple items by holding Ctrl then click on three items.</p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Stepsize</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter the stepsize of the plot.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Higher numbers yield faster calculations but may reduce accuracy.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Default number is &quot;1&quot;</p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Share x-ax</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">checking box will enable all plots to share the same x-axis </p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">with no whitespace in between</p></body></html>"))
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">HM - Mass&amp;More Plot</span></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">________________</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">You may select up to a maximum of </span><span style=\" font-size:10pt; font-weight:600;\">three</span><span style=\" font-size:10pt;\"> (current) data columns on the right. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Select multiple items by holding Ctrl then click on three items.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Stepsize</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Enter the stepsize of the plot.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Higher numbers yield faster calculations but may reduce accuracy.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Recommended number is &quot;1&quot;</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Share x-ax</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">checking box will enable all plots to share the same x-axis </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">with no whitespace in between</span></p></body></html>"))
         self.label.setText(_translate("Dialog", "Stepsize"))
         self.checkBox.setText(_translate("Dialog", "Share x-ax"))
         return
 
-if __name__ == "__main__": #Initializes the MainWindow GUI of Hypermongo. Program quits when closed
+if __name__ == "__main__": #Initializes the MainWindow GUI of Hypermongo. This program is meant to be run as a script
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
