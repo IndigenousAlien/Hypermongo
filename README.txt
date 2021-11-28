@@ -11,8 +11,7 @@
                      #_____________________________________________________________________#
 
 
-Hypermongo is a data visualization tool designed to create plots with Starsmasher's energy#.sph and mass&More.out files.
-The purpose is to utilize Python's Matplot and PyQt packages which provides a wider range of tools while viewing data plots, compared to 
+Hypermongo is a data visualization tool designed to create plots with Starsmasher's energy#.sph and mass&More.out files. The purpose is to utilize Python's Matplot and PyQt packages which provides a wider range of tools while viewing data plots, compared to 
 Robert Lupton and Patricia Monger's "Supermongo". 
 
 In it's current state, Hypermongo's use is limited to simple time vs. ... plots but can serve to be a more useful supplementary tool to 
