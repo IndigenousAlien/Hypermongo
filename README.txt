@@ -20,12 +20,14 @@ In it's simplest form, Hypermongo reads data files with columns separated by spa
 ___________________________________________________________________________________________________________________
 
 INSTALLATION:
-You can find all neccessary files for Hypermongo at my github repository: 
+You can find all neccessary files for Hypermongo at my github repository: https://github.com/IndigenousAlien/Hypermongo
 
 If you want to simply use Hypermongo, download the respective executable file for your OS (Windows, Mac, Linux) and run the program. 
 
 However, if you wish to view or edit the code for yourself, download the HypermongoPyQt.py file and open it with your preferred IDE for python. 
-Note: if you wish to run the python file this way, you must have anaconda3 installed for your OS Hypermongo uses anaconda3 which is a package manager that includes 
+Note: if you wish to run the python file this way, you must have anaconda3 installed for your OS Hypermongo uses anaconda3 which is a package manager that includes PyQt and MatPlotLib which is essential to Hypermongo. You can install anaconda3 at: https://www.anaconda.com/products/individual
+
+Make sure you set your IDE to have Python ## (base: conda) as the interpreter!
 ___________________________________________________________________________________________________________________
 
 If Hypermongo is being utilized for your comp. project, please be sure to credit my code and me and to cite my paper: "insert paper here"
