@@ -1,4 +1,6 @@
 INSTALL:
+Note - This version of Hypermongo is intended for OS running Windows 10 or greater.
+
 - Make sure you have some version of Python3 installed on your Windows OS, during the installation, check the box labeled "Add Python # to PATH"
 - If you haven't already done so, install the repository zip file from https://github.com/IndigenousAlien/Hypermongo and unpack the file.
 - Once your are done unpacking, navigate in your new folder to the directory Hypermongo/Executable Files/WinOS in Windows file explorer and type "cmd" in the filesearch bar
