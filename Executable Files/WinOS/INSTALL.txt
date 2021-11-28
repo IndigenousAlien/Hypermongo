@@ -1,5 +1,5 @@
 INSTALL:
-Note - This version of Hypermongo is intended for OS running Windows 10 or greater.
+Note - This version of Hypermongo is intended for OS running Windows 10 or greater. You will also need about 1 GB of space on your local disk.
 
 - Make sure you have some version of Python3 installed on your Windows OS, during the installation, check the box labeled "Add Python # to PATH"
 - If you haven't already done so, install the repository zip file from https://github.com/IndigenousAlien/Hypermongo and unpack the file.
