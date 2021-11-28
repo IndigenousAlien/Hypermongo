@@ -5,7 +5,9 @@ Note - This version of Hypermongo is intended for OS running Windows 10 or great
 - If you haven't already done so, install the repository zip file from https://github.com/IndigenousAlien/Hypermongo and unpack the file.
 - Once your are done unpacking, navigate in your new folder to the directory Hypermongo/Executable Files/WinOS in Windows file explorer and type "cmd" in the filesearch bar
 - A terminal will pop up, and type "pip install pyinstaller" and hit enter.
-- Once that is completed, check to make sure that the python file HypermongoWinOS.py is in the directory where you typed "cmd" in the filesearch, then type "pyinstaller --onedir --noconsole HypermongoWinOS.py" then press enter
-- The previous task will take some time to complete, but it should create a few files and folders in your WinOS folder. Navigate through the dist and HypermongoWinOS folders, then search for the HypermongoWinOS.exe application
+- Once that is completed, check to make sure that the python file HypermongoWinOS.py is in the directory where you typed "cmd" in the filesearch, 
+  then type "pyinstaller --onedir --noconsole HypermongoWinOS.py" then press enter
+- The previous task will take some time to complete, but it should create a few files and folders in your WinOS folder. Navigate through the dist and HypermongoWinOS folders, 
+  then search for the HypermongoWinOS.exe application
 - Once you find the application, right-click and create a shortcut of HypermongoWinOS.exe and place the shortcut wherever you desire. Rename the shortcut to whatever you like
 - Run the exe file by double clicking, and you're done!
