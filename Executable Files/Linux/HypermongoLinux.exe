@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import matplotlib.pyplot as plt
 from matplotlib.widgets import MultiCursor
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -49,7 +48,7 @@ def newName(ylabel, numCol): #Changes the names of yplots to add subscripts if i
         tempName = ylabel[i]
         if checkNum(tempName) == True:
             tempName = changeName.match(tempName).groups()
-            tempName = "$" + tempName[0] + "_{" + tempName[1] + "}$"
+            tempName = "$" + tempName[0] +"_{" + tempName[1] + "}$"
         ylabel[i] = tempName
     return ylabel 
 
@@ -85,6 +84,20 @@ def hmx(fileNum, stepsize, checkedBox):
     grph(ylabel, yplot, file, numCol, checkedBox)
     return
 
+def newColNum(oldNum):
+    """Fixes abnormal spacing issue in mass&More.out for the titles"""
+    if oldNum < 11:
+        return oldNum #no change
+    elif oldNum == 11:
+        newNum = oldNum + 1 #add one to column num
+        return newNum
+    elif oldNum in (12,13):
+        newNum = oldNum + 2 #add two to column num
+        return newNum
+    elif oldNum in (14,15,16):
+        newNum = oldNum + 3 #add three to column num
+        return newNum
+
 def hmxl (stepsize, numCol, one, two, three, four, checkedBox):
     """Reads massAndMore.out file and allows user to create up to 4 plots of data vs. time
     """
@@ -102,12 +115,25 @@ def hmxl (stepsize, numCol, one, two, three, four, checkedBox):
     with open(file) as mor:
         for line in mor:
             if x == 0:
-                row = line.split()
-                name1 = row[one]
-                name2 = row[two]
-                name3 = row[three]
-                name4 = row[four]
-                x = 1
+                row = line.split() # splits the first row into different columns separated by spaces in between characters
+                #Note: Columns 10,11,13, and 16 in massAndMore.out have a single space separating the characters. This is resolved below.
+                if one in (10,11,13,16): #Combines two columns together for that specific row. Same for the other if-statements.
+                    name1 = f"{row[newColNum(one)]} {row[newColNum(one)+1]}"
+                else:
+                    name1 = row[newColNum(one)]
+                if two in (10,11,13,16):
+                    name2 = f"{row[newColNum(two)]} {row[newColNum(two)+1]}"
+                else:
+                    name2 = row[newColNum(two)]
+                if three in (10,11,13,16):
+                    name3 = f"{row[newColNum(three)]} {row[newColNum(three)+1]}"
+                else:
+                    name3 = row[newColNum(three)]
+                if four in (10,11,13,16):
+                    name4 = f"{row[newColNum(four)]} {row[newColNum(four)+1]}"
+                else:
+                    name4 = row[newColNum(four)]
+                x = 1 # prevents names being overwritten and only else-statement below is read in for-loop.
             else:
                 if j%stepsize == 0:
                     row = line.split()
@@ -431,7 +457,7 @@ class Ui_Dialog_energy(object): #Creates Dialog window for energy.sph plots
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Stepsize</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter the stepsize of the plot.</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Higher numbers yield faster calculations but may reduce accuracy.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Default number is &quot;1&quot;</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Minimum number is &quot;1&quot;</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Note: </span>Setting stepsize higher than the # of line in the .sph</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">file will result in no data showing on the plot.</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
@@ -629,7 +655,7 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Stepsize</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Enter the stepsize of the plot.</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Higher numbers yield faster calculations but may reduce accuracy.</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Recommended number is &quot;1&quot;</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Minimum number is &quot;1&quot;</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Share x-ax</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">checking box will enable all plots to share the same x-axis </span></p>\n"
