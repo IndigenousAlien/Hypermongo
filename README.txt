@@ -1,3 +1,4 @@
+
                                         #_____________________________________________________________________#
                                         |    _   _                                                            |
                                         |   | | | |                                                           |
@@ -8,6 +9,7 @@
                                         |           __/ | |                                     __/ |         |
                                         |          |___/|_|                                    |___/          |
                                         #_____________________________________________________________________#
+
 
 Hypermongo is a data visualization tool designed to create plots with Starsmasher's energy#.sph and mass&More.out files.
 The purpose is to utilize Python's Matplot and PyQt packages which provides a wider range of tools while viewing data plots, compared to 
@@ -24,6 +26,7 @@ utilizes a shared graphing function which plots each column in a "time vs. ..." 
 Hypermongo, I recommend placing the "time" column first as Hypermongo reads the first column as time. 
 
 __________________________________________________________________________________________________________________________________________________________________
+
 INSTALLATION:
 You can find all neccessary files for Hypermongo at my github repository: 
 
