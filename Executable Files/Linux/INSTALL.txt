@@ -1,0 +1,19 @@
+INSTALL:
+- Install the Hypermongo git repository as a zip file at https://github.com/IndigenousAlien/Hypermongo
+- Open the terminal on your Linux OS and make sure you have unzip installed by typing either "sudo apt install unzip" or "sudo yum install unzip", depending if your
+  OS uses Debian or Fedora.
+- cd to your downloads folder by inputting "cd ~/downloads" and check to see if Hypermongo.zip is in the directory with the "ls" command.
+- unzip the file using the command "unzip Hypermongo.zip" which will create a new directory "Hypermongo", which you can choose to move elsewhere using the command
+  "mv ~/downloads/Hypermongo/ (newdirectory path here)"
+- cd into the Hypermongo directory and ls to see if the Executable files folder is there. cd into "Executable Files" and then cd into "Linux".
+- type ls to check if the HypermongoLinux.exe file is there. Lastly, copy the file and move it into your bin folder by typing "cp HypermongoLinux.exe ~/bin"
+- check to see if the executable file works by typing "HypermongoLinux.exe" into the command prompt. The exe file can be run anywhere by simply typing the same 
+  command into the terminal. If you wish, you can rename the "HypermongoLinux.exe" into something shorter like "hmx.exe" to make typing the command easier.
+  
+OPTIONAL:
+- You can also make an alias to run the file in the command terminal by typing "gedit ~/.bashrc" (or instead of gedit, any text editing software, i.e vim, etc --
+  if you don't have these install them using "sudo apt install gedit")
+- scroll to the bottom of your .bashrc file and make a new line and type "#User aliases". Make another line and type "alias (name you want)='~/bin/HypermongoLinux.exe'
+  then save the file and close it. NOTE: if you renamed your HypermongoLinux.exe file, put that name in for the alias line after ~/bin/  instead.
+- Then you need to update the .bashrc list by typing in into the terminal, ". ~/.bashrc". Now you should be able to run the file by typing the alias name! 
+  Ex. if my alias's name is hmx, then I just type "hmx" into the terminal.
