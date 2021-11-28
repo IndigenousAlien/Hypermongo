@@ -13,7 +13,7 @@
 
 Hypermongo is a data visualization tool designed to create plots for the SPH code (written by Gaburov, Lombardi & Portegies Zwart 2010) Starsmasher -- pricipally Starsmasher's energy#.sph and mass&More.out files. The purpose is to utilize Python's Matplot and PyQt packages which provides a wider range of tools while viewing data plots, compared to Robert Lupton and Patricia Monger's "Supermongo". 
 
-In it's current state, Hypermongo's use is limited to simple time vs. ... plots but can serve to be a more useful supplementary tool to Supermongo in such cases for its simplicity. Should there be a need to expand Hypermongo's toolset for additional output files, a brief explanation of how Hypermongo reads data will be described here: 
+Currently, Hypermongo's use is limited to simple time vs. ... plots but can serve to be a more useful supplementary tool to Supermongo in such cases for its simplicity. Should there be a need to expand Hypermongo's toolset for additional output files, a brief explanation of how Hypermongo reads data will be described here: 
 
 In it's simplest form, Hypermongo reads data files with columns separated by spaces in between values with the first row containing the name(s) of the each column of data; the format of the data should resemble something you would see in an excel spreadsheet. This code has separate functions to create lists using the column data in each row and appends them into separate lists for each column, but the code utilizes a shared graphing function which plots each column in a "time vs. ..." format. If you are creating your own data sheet for Hypermongo, I recommend placing the "time" column first as Hypermongo reads the first column as time. 
 
