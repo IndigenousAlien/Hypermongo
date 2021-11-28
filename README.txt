@@ -28,4 +28,4 @@ However, if you wish to view or edit the code for yourself, download the Hypermo
 Note: if you wish to run the python file this way, you must have anaconda3 installed for your OS Hypermongo uses anaconda3 which is a package manager that includes 
 ___________________________________________________________________________________________________________________
 
-If Hypermongo is being utilized for your future comp. project, please be sure to credit my code and me and to cite my paper: "insert paper here"
+If Hypermongo is being utilized for your comp. project, please be sure to credit my code and me and to cite my paper: "insert paper here"
