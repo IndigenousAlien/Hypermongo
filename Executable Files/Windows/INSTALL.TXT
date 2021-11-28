@@ -1,0 +1,13 @@
+INSTALL:
+Note - This version of Hypermongo is intended for OS running Windows 10 or greater. You will also need about 1 GB of space on your local disk.
+
+- Make sure you have some version of Python3 installed on your Windows OS, during the installation, check the box labeled "Add Python # to PATH"
+- If you haven't already done so, install the repository zip file from https://github.com/IndigenousAlien/Hypermongo and unpack the file.
+- Once your are done unpacking, navigate in your new folder to the directory Hypermongo/Executable Files/Windows in Windows file explorer and type "cmd" in the filesearch bar
+- A terminal will pop up, and type "pip install pyinstaller" and hit enter.
+- Once that is completed, check to make sure that the python file HypermongoWindows.py is in the directory where you typed "cmd" in the filesearch, 
+  then type "pyinstaller --onedir --noconsole HypermongoWindows.py" then press enter
+- The previous task will take some time to complete, but it should create a few files and folders in your Windows folder. Navigate through the dist folder and HypermongoWindows folders, 
+  then search for the HypermongoWindows.exe application
+- Once you find the application, right-click and create a shortcut of HypermongoWindows.exe and place the shortcut wherever you desire. Rename the shortcut to whatever you like
+- Run the exe file by double clicking, and you're done!
