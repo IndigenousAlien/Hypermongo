@@ -8,23 +8,15 @@ import os
 
 #Purpose: Uses pyplot and PyQt5 GUI to improve SM plots.
 #Author: Jacky Tran @Allegheny College
-#Version: 1.2
-#Date: 9/7/2021
+#Version: 1.4
+#Date: 11/28/2021
 
 #-----------------------------------------------------------------------------------------------#
 # Reads energy#.sph + massAndMore.out, computes and graphs time versus plots                    #
 # New Features:                                                                                 #
-#              - Implemented second data list, "massAndMore.out" which Hypermongo can           # 
-#                set up to 3 different data lists vs. time.                                     #
-#              - Added Multicursor function to keep track of all x-values on all subplots.      #
-#              - Changed graphing function to use dictionary function to create variables.      #
-#              - Optimized "grph" function using a list to reduce "if" statements.              #
-#              - Fully integrated GUI added                                                     #
-#              - Multiple plot windows can be created in one instance of Hypermongo running.    #
-#              - Subscripts for labels of plots with numbers in them                            #
-#              - Directory search bar                                                           #
-#              - Add option to squish all axis together instead separating them                 #
-#              - Added resizing of window and widgets                                           #
+#              - Allows user to read the old massAndMore.out files in addition to new ones      #
+#              - list widget in Mass window now updates depending on the header column of       #
+#                the massAndMore.out file. More functions were added to help this process.      #
 # Future ideas:                                                                                 #
 #              - None for now                                                                   #
 #-----------------------------------------------------------------------------------------------#
@@ -43,12 +35,14 @@ def newName(ylabel, numCol): #Changes the names of yplots to add subscripts if i
     """This function takes a string and changes it to add a subscript
     for the massAndMore.out file, only if it contains a number. i.e m1 or x2...
     """
-    changeName = re.compile("([a-zA-Z]+)([0-9]+)") #the re.compile splits a string if a number is found.
     for i in range(0,numCol):
         tempName = ylabel[i]
         if checkNum(tempName) == True:
-            tempName = changeName.match(tempName).groups()
-            tempName = "$" + tempName[0] +"_{" + tempName[1] + "}$"
+            changeName = re.split("(\d+)", tempName) #the re.split splits a string if a number is found.
+            if len(changeName) == 3:
+                tempName = "$" + changeName[0] +"_{" + changeName[1] + "}$" + changeName[2]
+            else:
+                tempName = "$" + changeName[0] +"_{" + changeName[1] + "}$"
         ylabel[i] = tempName
     return ylabel 
 
@@ -85,7 +79,7 @@ def hmx(fileNum, stepsize, checkedBox):
     return
 
 def newColNum(oldNum):
-    """Fixes abnormal spacing issue in mass&More.out for the titles"""
+    """Fixes old spacing issue in mass&More.out for the titles"""
     if oldNum < 11:
         return oldNum #no change
     elif oldNum == 11:
@@ -109,30 +103,13 @@ def hmxl (stepsize, numCol, one, two, three, four, checkedBox):
     j = 0
     x = 0
     file = "massAndMore.out"
-    if stepsize <1:
-        stepsize = 1
-        print("Warning: Stepsize cannot be less than 1, set to default value of 1.")
     with open(file) as mor:
         for line in mor:
             if x == 0:
-                row = line.split() # splits the first row into different columns separated by spaces in between characters
-                #Note: Columns 10,11,13, and 16 in massAndMore.out have a single space separating the characters. This is resolved below.
-                if one in (10,11,13,16): #Combines two columns together for that specific row. Same for the other if-statements.
-                    name1 = f"{row[newColNum(one)]} {row[newColNum(one)+1]}"
-                else:
-                    name1 = row[newColNum(one)]
-                if two in (10,11,13,16):
-                    name2 = f"{row[newColNum(two)]} {row[newColNum(two)+1]}"
-                else:
-                    name2 = row[newColNum(two)]
-                if three in (10,11,13,16):
-                    name3 = f"{row[newColNum(three)]} {row[newColNum(three)+1]}"
-                else:
-                    name3 = row[newColNum(three)]
-                if four in (10,11,13,16):
-                    name4 = f"{row[newColNum(four)]} {row[newColNum(four)+1]}"
-                else:
-                    name4 = row[newColNum(four)]
+                name1 = Ui_Dialog_mass.setName(Ui_Dialog_mass)[one]
+                name2 = Ui_Dialog_mass.setName(Ui_Dialog_mass)[two]
+                name3 = Ui_Dialog_mass.setName(Ui_Dialog_mass)[three]
+                name4 = Ui_Dialog_mass.setName(Ui_Dialog_mass)[four]
                 x = 1 # prevents names being overwritten and only else-statement below is read in for-loop.
             else:
                 if j%stepsize == 0:
@@ -191,16 +168,41 @@ def grph(ylabel, yplot, file, numCol, checkedBox):
 class Ui_MainWindow(object): #Creates a class object for the main window of Hypermongo
     def openWindow(self):  #Opens second window for energy/mass&more plots
         self.window = QtWidgets.QDialog()
-        if self.radioButton.isChecked(): #Creates window for energy.sph when button 1 is selected
+        #if self.radioButton.isChecked() and os.path.isfile("energy" + str(fileNum) + ".sph") == False:
+        #    self.show_popupE() #Creates window for energy.sph when button 1 is selected
+        if self.radioButton.isChecked():
             self.ui = Ui_Dialog_energy()
             self.ui.setupUi(self.window)
             self.window.show()
-        elif self.radioButton_2.isChecked(): #Creates window for mass&more.out when button 2 is selected
+
+        elif self.radioButton_2.isChecked() and os.path.isfile("massAndMore.out") == False: #Creates error window for mass&more.out when button is selected
+            self.show_popupM()
+        elif self.radioButton_2.isChecked() and os.path.isfile("massAndMore.out") == True:
             self.ui = Ui_Dialog_mass()
             self.ui.setupUi(self.window)
             self.window.show()
         else:
             pass
+        return
+
+    def show_popupE(self): #Gives user warning popup for fileNumber
+        msg = QMessageBox()
+        msg.setWindowTitle("Hold on there, Jethro!")
+        msg.setText("Error: No + energy#.sph can be found in the directory.")
+        msg.setInformativeText("Make sure your file is in your current directory before proceeding!")
+        msg.setDetailedText(f"Your current directory path is: \n" + "_"*67 + "\n" + str(os.getcwd()))
+        msg.setIcon(QMessageBox.Warning)
+        showMessage = msg.exec_()
+        return
+
+    def show_popupM(self): #Gives user warning popup for fileNumber
+        msg = QMessageBox()
+        msg.setWindowTitle("Hold on there, Jethro!")
+        msg.setText("Error: massAndMore.out could not be found in the directory.")
+        msg.setInformativeText("Make sure your file is in your current directory before proceeding!")
+        msg.setDetailedText(f"Your current directory path is: \n" + "_"*67 + "\n" + str(os.getcwd()))
+        msg.setIcon(QMessageBox.Warning)
+        showMessage = msg.exec_()
         return
 
     def changeDir(self): #Changes current directory to new directory.
@@ -349,7 +351,7 @@ class Ui_Dialog_energy(object): #Creates Dialog window for energy.sph plots
         stepsize = self.spinBox_2.value()
         checkedBox = self.checkBox.isChecked()
         if os.path.isfile("energy" + str(fileNum) + ".sph") == False:
-            self.show_popup(fileNum)
+            self.show_popupE(fileNum)
         else:
             hmx(fileNum, stepsize, checkedBox)
         return
@@ -429,7 +431,7 @@ class Ui_Dialog_energy(object): #Creates Dialog window for energy.sph plots
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         return
 
-    def show_popup(self, fileNum): #Gives user warning popup for fileNumber
+    def show_popupE(self, fileNum): #Gives user warning popup for fileNumber
         msg = QMessageBox()
         msg.setWindowTitle("Hold on there, Jethro!")
         msg.setText("Error: energy" + str(fileNum) + ".sph could not be found in the directory.")
@@ -484,7 +486,7 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
                 text.append(i.text()[0:2])
         numCol = len(text)
         if os.path.isfile("massAndMore.out") == False:
-            self.show_popup()
+            self.show_popupM()
         elif (numCol == 1):
             hmxl(stepsize, numCol, int(text[0]), 0, 0, 0, checkedBox)
         elif numCol == 2:
@@ -497,6 +499,32 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
             pass
         return
 
+    def countCol(self):
+        """Counts the number of header columns in massAndMore.out"""
+        with open("massAndMore.out") as mor:
+            for line in mor:
+                row = len(line.split())
+                if row == 21:
+                    return row-4
+                else: return row
+
+    def setName(self):
+        """Returns a list of names for the list widget in Ui_Dialog_mass class. Also used in hmxl()"""
+        with open("massAndMore.out") as mor:
+            nameList = []
+            for line in mor:
+                row = line.split() # splits the first row into different columns separated by spaces in between characters
+                    #Note: Columns 10,11,13, and 16 in massAndMore.out have a single space separating the characters. This is resolved below.
+                for x in range(Ui_Dialog_mass().countCol()):
+                    if Ui_Dialog_mass().countCol() == 17:
+                        if x in (10,11,13,16): #Combines two columns together for that specific row. Same for the other if-statements.
+                            nameList.append(f"{row[newColNum(x)]} {row[newColNum(x)+1]}")
+                        else:
+                            nameList.append(row[newColNum(x)])
+                    else:
+                        nameList.append(row[x])
+                return nameList
+    
     def setupUi(self, Dialog): #Sets up Dialog window for mass&more plots.
         Dialog.setObjectName("Dialog")
         Dialog.resize(508, 400)
@@ -538,38 +566,9 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
         font.setPointSize(10)
         self.listWidget.setFont(font)
         self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidget.addItem(item)
+        for i in range(self.countCol()-1): #Creates items to list widget.
+            item = QtWidgets.QListWidgetItem()
+            self.listWidget.addItem(item)
         self.gridLayout.addWidget(self.listWidget, 0, 2, 2, 1)
         self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
@@ -593,7 +592,7 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         return
 
-    def show_popup(self): #Gives user warning popup if energy(filenumber).sph could not be found in directory
+    def show_popupM(self): #Gives user warning popup if massAndMore.out could not be found in directory
         msg = QMessageBox()
         msg.setWindowTitle("Hold on there, Jethro!")
         msg.setText("Error: massAndMore.out could not be found in the directory.")
@@ -609,38 +608,9 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
         self.pushButton.setText(_translate("Dialog", "Create Plot"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("Dialog", "1. m1"))
-        item = self.listWidget.item(1)
-        item.setText(_translate("Dialog", "2. m2"))
-        item = self.listWidget.item(2)
-        item.setText(_translate("Dialog", "3. x1"))
-        item = self.listWidget.item(3)
-        item.setText(_translate("Dialog", "4. y1"))
-        item = self.listWidget.item(4)
-        item.setText(_translate("Dialog", "5. z1"))
-        item = self.listWidget.item(5)
-        item.setText(_translate("Dialog", "6. x2"))
-        item = self.listWidget.item(6)
-        item.setText(_translate("Dialog", "7. y2"))
-        item = self.listWidget.item(7)
-        item.setText(_translate("Dialog", "8. z2"))
-        item = self.listWidget.item(8)
-        item.setText(_translate("Dialog", "9. separation"))
-        item = self.listWidget.item(9)
-        item.setText(_translate("Dialog", "10. CE+ejecta m"))
-        item = self.listWidget.item(10)
-        item.setText(_translate("Dialog", "11. semimajor a"))
-        item = self.listWidget.item(11)
-        item.setText(_translate("Dialog", "12. eccentricity"))
-        item = self.listWidget.item(12)
-        item.setText(_translate("Dialog", "13. unbound m"))
-        item = self.listWidget.item(13)
-        item.setText(_translate("Dialog", "14. spin1"))
-        item = self.listWidget.item(14)
-        item.setText(_translate("Dialog", "15. spin2"))
-        item = self.listWidget.item(15)
-        item.setText(_translate("Dialog", "16. orb. period"))
+        for i in range(self.countCol()-1):
+            item = self.listWidget.item(i)
+            item.setText(_translate("Dialog", f"{i+1}. {self.setName()[i+1]}"))
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.textBrowser.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -649,7 +619,7 @@ class Ui_Dialog_mass(object): #Defines class creating dialog window for mass&mor
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">HM - Mass&amp;More Plot</span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">________________</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">You may select up to a maximum of </span><span style=\" font-size:10pt; font-weight:600;\">three</span><span style=\" font-size:10pt;\"> (current) data columns on the right. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">You may select up to a maximum of </span><span style=\" font-size:10pt; font-weight:600;\">four</span><span style=\" font-size:10pt;\"> (current) data columns on the right. </span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Select multiple items by holding Ctrl then click on three items.</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Stepsize</span></p>\n"
