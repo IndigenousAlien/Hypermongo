@@ -30,7 +30,7 @@ Note: if you wish to run the python file this way, you must have anaconda3 insta
 Make sure you set your IDE to have Python ## (base: conda) as the interpreter!
 ___________________________________________________________________________________________________________________
 
-Feel free to send any questions my way at jpamtran@gmail.com
+Feel free to send any questions my way at jtran9148@gmail.com
 If Hypermongo is being utilized for your comp. project, please be sure to credit my code and me and to cite my paper: [paper in progress]
 
 Best,
