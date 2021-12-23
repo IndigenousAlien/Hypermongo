@@ -17,7 +17,7 @@ Currently, Hypermongo's use is limited to simple time vs. ... plots but can serv
 
 In it's simplest form, Hypermongo reads data files with columns separated by spaces in between values with the first row containing the name(s) of the each column of data; the format of the data should resemble something you would see in an excel spreadsheet. This code has separate functions to create lists using the column data in each row and appends them into separate lists for each column, but the code utilizes a shared graphing function which plots each column in a "time vs. ..." format. If you are creating your own data sheet for Hypermongo, I recommend placing the "time" column first as Hypermongo reads the first column as time. 
 
-_______________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________
 
 INSTALLATION:
 You can find all neccessary files for Hypermongo at my github repository: https://github.com/IndigenousAlien/Hypermongo
@@ -28,7 +28,7 @@ However, if you wish to view or edit the code for yourself, download the Hypermo
 Note: if you wish to run the python file this way, you must have anaconda3 installed for your OS Hypermongo uses anaconda3 which is a package manager that includes PyQt and MatPlotLib which is essential to Hypermongo. You can install anaconda3 at: https://www.anaconda.com/products/individual
 
 Make sure you set your IDE to have Python ## (base: conda) as the interpreter!
-_______________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________
 
 Feel free to send any questions my way at jtran9148@gmail.com
 If Hypermongo is being utilized for your comp. project, please be sure to credit my code and me and to cite my paper: [paper in progress]
