@@ -1,14 +1,14 @@
 
-                     #_____________________________________________________________________#
-                     |    _   _                                                            |
-                     |   | | | |                                                           |
-                     |   | |_| |_   _ _ __   ___ _ __ _ __ ___   ___  _ __   __ _  ___     |
-                     |   |  _  | | | | '_ \ / _ \ '__| '_ ` _ \ / _ \| '_ \ / _` |/ _ \    |
-                     |   | | | | |_| | |_) |  __/ |  | | | | | | (_) | | | | (_| | (_) |   |
-                     |   \_| |_/\__, | .__/ \___|_|  |_| |_| |_|\___/|_| |_|\__, |\___/    |
-                     |           __/ | |                                     __/ |         |
-                     |          |___/|_|                                    |___/          |
-                     #_____________________________________________________________________#
+                          #_____________________________________________________________________#
+                          |    _   _                                                            |
+                          |   | | | |                                                           |
+                          |   | |_| |_   _ _ __   ___ _ __ _ __ ___   ___  _ __   __ _  ___     |
+                          |   |  _  | | | | '_ \ / _ \ '__| '_ ` _ \ / _ \| '_ \ / _` |/ _ \    |
+                          |   | | | | |_| | |_) |  __/ |  | | | | | | (_) | | | | (_| | (_) |   |
+                          |   \_| |_/\__, | .__/ \___|_|  |_| |_| |_|\___/|_| |_|\__, |\___/    |
+                          |           __/ | |                                     __/ |         |
+                          |          |___/|_|                                    |___/          |
+                          #_____________________________________________________________________#
 
 
 Hypermongo is an open-source data visualization tool designed to create plots for the SPH code (written by Gaburov, Lombardi & Portegies Zwart 2010) Starsmasher -- principally Starsmasher's energy#.sph and mass&More.out files. The purpose is to utilize Python's pyplot and PyQt packages which provide a wider range of tools while viewing data plots, compared to Robert Lupton and Patricia Monger's "Supermongo". 
