@@ -9,8 +9,8 @@ import os
 
 #Purpose: Uses pyplot and PyQt5 GUI to improve SM plots.
 #Author: Jacky Tran @Allegheny College
-#Version: 1.6
-#Date: 11/28/2021
+#Version: 1.7
+#Date: 12/27/2021
 
 #-----------------------------------------------------------------------------------------------#
 # Reads energy#.sph + massAndMore.out, computes and graphs time versus plots                    #
@@ -24,9 +24,9 @@ import os
 #              -Added new error messages to catch out of bounds errors in number of selected    #
 #               columns                                                                         #
 #              -Fixed "QCoreApplication: event loop already running" bug when graphing          #
+#              -Fixed exponential multiplier bug in shareax mode by removing multiplier         #
 # Future ideas:                                                                                 #
-#              - Clean up visual problem when displaying a plot with scientific notation        #
-#                multiplier while using the shareax function.                                   #
+#              -None for now                                                                    #
 #-----------------------------------------------------------------------------------------------#
 
 #-----------------------------------------#
@@ -597,6 +597,7 @@ def grph(ylabel, yplot, file, numCol, checkedBox): #Takes list of y axis labels,
         ax_dict["ax%s" %(i+1)].plot(yplot[0], yplot[i+1])
         ax_dict["ax%s" %(i+1)].set_ylabel(ylabel[i], fontsize = 12)
         plt.grid(True, which = 'both')
+        ax_dict["ax%s" %(i+1)].ticklabel_format(useOffset=False, style = "plain") #Removes exponential multipliers on plot. Temporary fix for exponential multiplier labels until matplotlib fixes the bug.
         ax_list.append(ax_dict["ax%s" %(i+1)]) #Appends dictionary axis to list
     plt.xlabel('time', fontsize = 12)
     if  checkedBox == True: # Checks whether the "share x-ax" check boxes in energy/mass window is selected
