@@ -75,7 +75,7 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
 
     def setupUi(self, MainWindow): #Creates widgets and buttons on the main window
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(700, 800)
+        MainWindow.resize(800, 800)
         font = QtGui.QFont()
         font.setPointSize(16)
         MainWindow.setFont(font)
@@ -91,7 +91,7 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
         font.setPointSize(20)
         self.radioButton.setFont(font)
         self.radioButton.setObjectName("radioButton")
-        self.radioButton.setMaximumWidth(200)
+        self.radioButton.setMaximumWidth(400)
         self.gridLayout.addWidget(self.radioButton, 3, 0, 1, 1)
 
         #Set up radio btn 2 - Mass&More plots
@@ -111,7 +111,7 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
         #Set up txtbrwsr 2 - Current directory info
         self.textBrowser_2 = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser_2.setObjectName("textBrowser_2")
-        self.textBrowser_2.setMaximumHeight(70)
+        self.textBrowser_2.setMaximumHeight(85)
         self.gridLayout.addWidget(self.textBrowser_2, 1, 0, 1, 0)
 
         #Set up pshbtn 1 - Next button
@@ -189,7 +189,7 @@ class Ui_MainWindow(object): #Creates a class object for the main window of Hype
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:16pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt;\">Have fun!</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:16pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-weight:600;\">Author: Jacky Tran @Allegheny College 2021</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-weight:600;\">Author: Jacky Tran @Allegheny College 2022</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-weight:600;\">Email: jtran9148@gmail.com</span></p></body></html>"))
         self.pushButton.setText(_translate("MainWindow", "Next"))
         #self.pushButton_2.setText(_translate("MainWindow", "Exit"))
