@@ -1,4 +1,4 @@
 INSTALL:
 Note - This version of Hypermongo is intended for OS running Windows. You will also need about 1 GB of space on your local disk.
 
-All you need to do is run the HypermongoSetup.exe file, and Hypermongo will be installed for you!
+Unfortunately, the file for the HypermongoSetup.exe is too large for GitHub to accept, and I'm not going to be upgrading my account anytime soon. If you'd like a copy of the file, you can email me at jtran9148@gmail.com, or you can email jalombar@allegheny.edu.
