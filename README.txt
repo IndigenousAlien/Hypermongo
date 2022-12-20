@@ -11,7 +11,7 @@
                           #_____________________________________________________________________#
 
 
-Hypermongo is an open-source data visualization tool designed to create plots for the SPH code (written by Gaburov, Lombardi & Portegies Zwart 2010) Starsmasher. The purpose is to utilize Python's pyplot and PyQt packages which provide additional tools and give a simpler user interface to viewing data plots, compared to Robert Lupton and Patricia Monger's "Supermongo".
+Hypermongo is a data visualization tool designed to create plots for the SPH code (written by Gaburov, Lombardi & Portegies Zwart 2010) Starsmasher. The purpose is to utilize Python's pyplot and PyQt packages which provide additional tools and give a simpler user interface to viewing data plots, compared to Robert Lupton and Patricia Monger's "Supermongo".
 
  by reading the first line of a data file as the title columns. The columns in the data file must be separated by spaces. Hypermongo design is to supplement Supermongo in such cases when a user wishes to read new data files without needing to create custom macros. 
 
